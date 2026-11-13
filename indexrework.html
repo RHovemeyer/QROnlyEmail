@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twin Falls Trails — Trail Condition Report</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        forest: {
+                            50: '#f2f7f4',
+                            100: '#e0ece4',
+                            200: '#c3dacb',
+                            300: '#9bbfa9',
+                            400: '#6e9f82',
+                            500: '#4b8263',
+                            600: '#38674d',
+                            700: '#2d533f',
+                            800: '#264334',
+                            900: '#1f372b',
+                            950: '#111f18',
+                        },
+                        earth: {
+                            50: '#faf8f5',
+                            100: '#f3efe8',
+                            200: '#e5ddd0',
+                            300: '#d3c4ae',
+                            400: '#bfa788',
+                            500: '#ad8d68',
+                            600: '#9c7857',
+                            700: '#826148',
+                            800: '#6b503e',
+                            900: '#584335',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-earth-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-forest-200 selection:text-forest-900">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-forest-900 text-white shadow-md sticky top-0 z-30">
+        
+    </header>
+
+
+
+
+    
+    <!-- Hero Banner with Topographic Pattern -->
+    <section class="relative bg-forest-800 text-white overflow-hidden">
+        <!-- Subtle SVG Topographic Contour Background -->
+        <div class="absolute inset-0 opacity-15 pointer-events-none">
+            <svg class="w-full h-full" viewBox="0 0 800 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M-50,150 Q150,50 350,150 T750,150 T1050,150" fill="none" stroke="#ffffff" stroke-width="2"/>
+                <path d="M-50,180 Q180,70 380,180 T780,180 T1080,180" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+                <path d="M-50,120 Q120,20 320,120 T720,120 T1020,120" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+                <path d="M-50,220 Q210,110 410,220 T810,220 T1110,220" fill="none" stroke="#ffffff" stroke-width="1"/>
+                <path d="M-50,80 Q90,-10 290,80 T690,80 T990,80" fill="none" stroke="#ffffff" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="relative max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14 text-center">
+           
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              
+            <h1 class="font-display text-5xl sm:text-4xl font-extrabold tracking-tight text-white mb-3">
+                Report Falls Trail Conditions
+            </h1>
+            <p class="text-forest-100 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+                Spotted a downed tree, muddy washout, pile of trash or wildlife along <strong class="text-white font-semibold">Falls Trail</strong>? Send a quick report directly to our Trail Coordinator below at <span class="underline decoration-emerald-400/70 underline-offset-2 font-medium">twinfallstrails@gmail.com</span>.
+            </p>
+        </div>
+    </section>
+
+
+
+    
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 sm:px-6 -mt-6 pb-16 relative z-10">
+        
+        <!-- Main Card -->
+        <div class="bg-white rounded-2xl shadow-xl shadow-slate-900/5 border border-slate-200/80 overflow-hidden">
+            
+           
+            </div>
+
+            <!-- Form Body -->
+            <div class="p-5 sm:p-8 space-y-6">
+
+                
+                    </div>
+                </div>
+
+                <!-- Optional Quick-Tag Chips for Hikers -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
+                        Quick Condition Tags <span class="font-normal lowercase text-slate-400">(tap to append to your note)</span>
+                    </label>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" data-tag="Downed tree blocking trail" class="tag-chip text-xs font-medium bg-slate-100 hover:bg-forest-100 text-slate-700 hover:text-forest-800 border border-slate-200 hover:border-forest-300 px-3 py-1.5 rounded-full transition cursor-pointer">
+                             Downed Tree
+                        </button>
+                        <button type="button" data-tag="Muddy / washout section" class="tag-chip text-xs font-medium bg-slate-100 hover:bg-forest-100 text-slate-700 hover:text-forest-800 border border-slate-200 hover:border-forest-300 px-3 py-1.5 rounded-full transition cursor-pointer">
+                             Mud / Washout
+                        </button>
+                        <button type="button" data-tag="Trail clear & in great shape" class="tag-chip text-xs font-medium bg-slate-100 hover:bg-forest-100 text-slate-700 hover:text-forest-800 border border-slate-200 hover:border-forest-300 px-3 py-1.5 rounded-full transition cursor-pointer">
+                             Trail Clear
+                        </button>
+                        <button type="button" data-tag="Signage / blaze damaged" class="tag-chip text-xs font-medium bg-slate-100 hover:bg-forest-100 text-slate-700 hover:text-forest-800 border border-slate-200 hover:border-forest-300 px-3 py-1.5 rounded-full transition cursor-pointer">
+                             Missing Sign
+                        </button>
+                          <button type="button" data-tag="Trash On Trail:" class="tag-chip text-xs font-medium bg-slate-100 hover:bg-forest-100 text-slate-700 hover:text-forest-800 border border-slate-200 hover:border-forest-300 px-3 py-1.5 rounded-full transition cursor-pointer">
+                            Trash
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Comment / Report Textarea -->
+                <div>
+
+                    <br>
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="trailReportInput" class="block text-sm font-bold text-slate-800">
+                            Trail Condition Note
+                        </label>
+                        <button type="button" id="resetPromptBtn" class="text-xs font-medium text-slate-500 hover:text-forest-700 underline underline-offset-2 transition cursor-pointer">
+                            Reset suggested text
+                        </button>
+
+
+
+
+
+
+                        
+                    </div>
+                    <div class="relative">
+
+                        <form action="https://api.web3forms.com/submit" method="POST">
+
+                            <input type="hidden" name="access_key" value="1c1016b6-4764-44f5-a0bd-aaabf096c302">
+                            
+
+                            
+                        <textarea 
+                            name="message"
+                            id="trailReportInput" 
+                            rows="5" 
+                            placeholder="Any reports of problems or trail conditions"
+                            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3.5 text-slate-800 text-base leading-relaxed shadow-sm focus:border-forest-600 focus:ring-4 focus:ring-forest-500/15 focus:outline-none transition resize-y"
+                            required
+                        > Comment Here</textarea>
+
+                            <div>
+                       
+                           
+                            <button type="submit" class="tag-chip  font-medium bg-slate-100 hover:bg-forest-100 text-slate-700 hover:text-forest-800 border border-slate-200 hover:border-forest-300 px-3 py-1.5  transition cursor-pointer">Submit</button>
+</form>
+                        
+                    </div>
+                    <div class="flex items-center justify-between mt-2 text-xs text-slate-500">
+                        <span>Tip: Include approximate mile marker or landmark if known.</span>
+                        <span id="charCount">43 chars</span>
+                    </div>
+                </div>
+
+                <!-- Optional Hiker Contact Input (Shown primarily in Option B Direct Send) -->
+             
+                    
+
+                        
+
+
+                              <!--Website thingy for the thingy to send without app-->                      
+                                
+                                
+ 
+ 
+  <!--test if will send without this? <input type="email" name="email" required> -->
+
+  
+
+
+
+                        
+                    </div>
+                </div>
+
+               
+
+                
+                        </div>
+
+
+
+
+
+
+
+
+
+        
+                        <div class="pt-1 flex flex-wrap items-center justify-between gap-2 border-t border-amber-200/70">
+                           
+                          
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Confirmation Banner (Hidden by default) -->
+                <div id="statusFeedbackBanner" class="hidden rounded-xl p-4 border text-sm transition-all" role="alert">
+                    <div class="flex items-start gap-3">
+                        <div id="statusIcon" class="shrink-0 mt-0.5"></div>
+                        <div class="flex-grow">
+                            <h4 id="statusTitle" class="font-bold"></h4>
+                            <p id="statusDescription" class="mt-0.5 text-xs leading-relaxed"></p>
+                        </div>
+                        <button type="button" id="dismissBannerBtn" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer" aria-label="Dismiss notification">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Secondary Info Footer Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+            <div class="bg-white/90 rounded-xl p-4 border border-slate-200/80 flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-forest-100 text-forest-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">What to Include</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                        Mention trailhead name, approximate distance from trailhead, and whether the obstacle is passable on foot.
+                    </p>
+                </div>
+            </div>
+            <div class="bg-white/90 rounded-xl p-4 border border-slate-200/80 flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Emergency Notice</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                        For medical emergencies, lost hikers, or active wildfires, always dial <strong>911</strong> immediately instead of using this form.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 px-4 text-center border-t border-slate-800">
+        <p>Twin Falls Trails Volunteer Stewardship &bull; Falls Trail Condition Reporting</p>
+    </footer>
+
+    
+</body>
+</html>
