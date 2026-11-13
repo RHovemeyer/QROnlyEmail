@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twin Falls Trails — Trail Condition Report</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        forest: {
+                            50: '#f2f7f4',
+                            100: '#e0ece4',
+                            200: '#c3dacb',
+                            300: '#9bbfa9',
+                            400: '#6e9f82',
+                            500: '#4b8263',
+                            600: '#38674d',
+                            700: '#2d533f',
+                            800: '#264334',
+                            900: '#1f372b',
+                            950: '#111f18',
+                        },
+                        earth: {
+                            50: '#faf8f5',
+                            100: '#f3efe8',
+                            200: '#e5ddd0',
+                            300: '#d3c4ae',
+                            400: '#bfa788',
+                            500: '#ad8d68',
+                            600: '#9c7857',
+                            700: '#826148',
+                            800: '#6b503e',
+                            900: '#584335',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-earth-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-forest-200 selection:text-forest-900">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-forest-900 text-white shadow-md sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Identity -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-forest-700 p-2 rounded-xl border border-forest-600 shadow-inner">
+                    <!-- Mountain / Trail SVG Icon -->
+                    <svg class="w-6 h-6 text-emerald-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 17l6-6 4 4 8-8m0 0v6m0-6h-6" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-display font-bold text-lg sm:text-xl tracking-tight block leading-none">Twin Falls Trails</span>
+                    <span class="text-xs text-forest-200 font-medium tracking-wide">Trail Stewardship & Conditions</span>
+                </div>
+            </div>
+
+            <!-- Developer Snippet Toggle Button -->
+            <button id="openDevModalBtn" type="button" class="inline-flex items-center gap-2 bg-forest-800 hover:bg-forest-700 active:bg-forest-950 text-forest-100 text-xs sm:text-sm font-medium px-3.5 py-2 rounded-xl border border-forest-600/80 transition shadow-sm cursor-pointer">
+                <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                <span>Get Website Code</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Banner with Topographic Pattern -->
+    <section class="relative bg-forest-800 text-white overflow-hidden">
+        <!-- Subtle SVG Topographic Contour Background -->
+        <div class="absolute inset-0 opacity-15 pointer-events-none">
+            <svg class="w-full h-full" viewBox="0 0 800 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M-50,150 Q150,50 350,150 T750,150 T1050,150" fill="none" stroke="#ffffff" stroke-width="2"/>
+                <path d="M-50,180 Q180,70 380,180 T780,180 T1080,180" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+                <path d="M-50,120 Q120,20 320,120 T720,120 T1020,120" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+                <path d="M-50,220 Q210,110 410,220 T810,220 T1110,220" fill="none" stroke="#ffffff" stroke-width="1"/>
+                <path d="M-50,80 Q90,-10 290,80 T690,80 T990,80" fill="none" stroke="#ffffff" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="relative max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14 text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900/70 border border-forest-600/60 text-emerald-200 text-xs font-semibold uppercase tracking-wider mb-4">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Falls Trail • Hiker Feedback Portal
+            </div>
+            <h1 class="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-3">
+                Report Trail Conditions
+            </h1>
+            <p class="text-forest-100 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+                Spotted a downed tree, muddy washout, or wildlife along <strong class="text-white font-semibold">Falls Trail</strong>? Send a quick report directly to our volunteer trail crew at <span class="underline decoration-emerald-400/70 underline-offset-2 font-medium">twinfallstrails@gmail.com</span>.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 sm:px-6 -mt-6 pb-16 relative z-10">
+        
+        <!-- Main Card -->
+        <div class="bg-white rounded-2xl shadow-xl shadow-slate-900/5 border border-slate-200/80 overflow-hidden">
+            
+            <!-- Submission Mode Tabs -->
+            <div class="bg-slate-50 border-b border-slate-200 p-2 sm:p-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" role="tablist" aria-label="Submission Method">
+                    <!-- Tab A: Email App -->
+                    <button id="tabEmailApp" type="button" role="tab" aria-selected="true" class="flex items-center justify-center sm:justify-start gap-3 px-4 py-3 rounded-xl text-left transition-all bg-white text-forest-900 shadow-sm ring-1 ring-slate-200 font-semibold cursor-pointer">
+                        <div class="w-9 h-9 rounded-lg bg-forest-100 text-forest-700 flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold leading-tight">Option A: Open Email App</div>
+                            <div class="text-xs text-slate-500 font-normal">Pre-fills subject & message</div>
+                        </div>
+                    </button>
+
+                    <!-- Tab B: Send Directly -->
+                    <button id="tabDirectSend" type="button" role="tab" aria-selected="false" class="flex items-center justify-center sm:justify-start gap-3 px-4 py-3 rounded-xl text-left transition-all text-slate-600 hover:bg-white/60 hover:text-slate-900 font-medium cursor-pointer">
+                        <div class="w-9 h-9 rounded-lg bg-slate-200/70 text-slate-600 flex items-center justify-center shrink-0" id="tabDirectIconWrap">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold leading-tight">Option B: Send Directly</div>
+                            <div class="text-xs text-slate-500 font-normal">No email app needed</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form Body -->
+            <div class="p-5 sm:p-8 space-y-6">
+
+                <!-- Read-Only Email Metadata Preview Bar -->
+                <div class="bg-forest-50/70 border border-forest-200/80 rounded-xl p-4 space-y-2.5 text-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-forest-700 w-20 shrink-0">To:</span>
+                        <div class="flex items-center justify-between flex-grow bg-white px-3 py-1.5 rounded-lg border border-forest-200/70">
+                            <span class="font-mono text-xs sm:text-sm text-slate-800 select-all">twinfallstrails@gmail.com</span>
+                            <button type="button" id="copyEmailBtn" class="text-xs font-semibold text-forest-700 hover:text-forest-900 px-2 py-0.5 rounded hover:bg-forest-100 transition cursor-pointer">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-forest-700 w-20 shrink-0">Subject:</span>
+                        <div class="flex items-center justify-between flex-grow bg-white px-3 py-1.5 rounded-lg border border-forest-200/70">
+                            <span class="font-semibold text-slate-800">Falls Trail</span>
+                            <span class="text-[11px] font-medium text-forest-600 bg-forest-100 px-2 py-0.5 rounded-md">Auto-filled</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optional Quick-Tag Chips for Hikers -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
+                        Quick Condition Tags <span class="font-normal lowercase text-slate-400">(tap to append to your note)</span>
+                    </label>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" data-tag="Downed tree blocking trail" class="tag-chip text-xs font-medium bg-slate-100 hover:bg-forest-100 text-slate-700 hover:text-forest-800 border border-slate-200 hover:border-forest-300 px-3 py-1.5 rounded-full transition cursor-pointer">
+                            🌲 Downed Tree
+                        </button>
+                        <button type="button" data-tag="Muddy / washout section" class="tag-chip text-xs font-medium bg-slate-100 hover:bg-forest-100 text-slate-700 hover:text-forest-800 border border-slate-200 hover:border-forest-300 px-3 py-1.5 rounded-full transition cursor-pointer">
+                            💧 Mud / Washout
+                        </button>
+                        <button type="button" data-tag="Trail clear & in great shape" class="tag-chip text-xs font-medium bg-slate-100 hover:bg-forest-100 text-slate-700 hover:text-forest-800 border border-slate-200 hover:border-forest-300 px-3 py-1.5 rounded-full transition cursor-pointer">
+                            ✅ Trail Clear
+                        </button>
+                        <button type="button" data-tag="Signage / blaze damaged" class="tag-chip text-xs font-medium bg-slate-100 hover:bg-forest-100 text-slate-700 hover:text-forest-800 border border-slate-200 hover:border-forest-300 px-3 py-1.5 rounded-full transition cursor-pointer">
+                            🪧 Missing Sign
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Comment / Report Textarea -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="trailReportInput" class="block text-sm font-bold text-slate-800">
+                            Trail Condition Note
+                        </label>
+                        <button type="button" id="resetPromptBtn" class="text-xs font-medium text-slate-500 hover:text-forest-700 underline underline-offset-2 transition cursor-pointer">
+                            Reset suggested text
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <textarea 
+                            id="trailReportInput" 
+                            rows="5" 
+                            placeholder="Any reports of problems or trail conditions"
+                            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3.5 text-slate-800 text-base leading-relaxed shadow-sm focus:border-forest-600 focus:ring-4 focus:ring-forest-500/15 focus:outline-none transition resize-y"
+                        >Any reports of problems or trail conditions</textarea>
+                    </div>
+                    <div class="flex items-center justify-between mt-2 text-xs text-slate-500">
+                        <span>Tip: Include approximate mile marker or landmark if known.</span>
+                        <span id="charCount">43 chars</span>
+                    </div>
+                </div>
+
+                <!-- Optional Hiker Contact Input (Shown primarily in Option B Direct Send) -->
+                <div id="directSenderFields" class="hidden space-y-4 pt-2 border-t border-slate-100">
+                    <div>
+                        <label for="hikerEmailInput" class="block text-sm font-semibold text-slate-700 mb-1">
+                            Your Email <span class="text-slate-400 font-normal">(optional, if you'd like a reply)</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="hikerEmailInput" 
+                            placeholder="hiker@example.com"
+                            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-slate-800 text-sm shadow-sm focus:border-forest-600 focus:ring-4 focus:ring-forest-500/15 focus:outline-none transition"
+                        />
+                    </div>
+                </div>
+
+                <!-- PANEL A: Option A Action Area (Mailto) -->
+                <div id="panelEmailApp" class="space-y-4 pt-2">
+                    <a 
+                        id="mailtoLaunchBtn"
+                        href="mailto:twinfallstrails@gmail.com?subject=Falls%20Trail&body=Any%20reports%20of%20problems%20or%20trail%20conditions"
+                        class="w-full flex items-center justify-center gap-2.5 bg-forest-700 hover:bg-forest-800 active:bg-forest-900 text-white font-display font-bold text-base px-6 py-4 rounded-xl shadow-lg shadow-forest-900/15 transition transform active:scale-[0.99]"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span>Open in Email App</span>
+                    </a>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 bg-slate-50 px-4 py-3 rounded-xl border border-slate-200/70">
+                        <span>Opens Apple Mail, Outlook, or your default mail client.</span>
+                        <a 
+                            id="gmailWebBtn"
+                            href="https://mail.google.com/mail/?view=cm&fs=1&to=twinfallstrails@gmail.com&su=Falls%20Trail&body=Any%20reports%20of%20problems%20or%20trail%20conditions"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="font-semibold text-forest-700 hover:text-forest-900 underline underline-offset-2 shrink-0"
+                        >
+                            Using Gmail in browser? Open Gmail Web &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PANEL B: Option B Action Area (Direct Send without Email App) -->
+                <div id="panelDirectSend" class="hidden space-y-4 pt-2">
+                    <button 
+                        id="directSubmitBtn"
+                        type="button"
+                        class="w-full flex items-center justify-center gap-2.5 bg-forest-700 hover:bg-forest-800 active:bg-forest-900 text-white font-display font-bold text-base px-6 py-4 rounded-xl shadow-lg shadow-forest-900/15 transition transform active:scale-[0.99] cursor-pointer"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                        <span>Send Note Directly (No Email App)</span>
+                    </button>
+
+                    <!-- Direct Send Explanation & Copy Fallback -->
+                    <div class="bg-amber-50/90 border border-amber-200/90 rounded-xl p-4 text-xs text-amber-900 space-y-2">
+                        <div class="flex items-start gap-2.5">
+                            <svg class="w-4 h-4 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div class="space-y-1.5">
+                                <p class="font-semibold text-amber-950">How sending without an email app works:</p>
+                                <p class="leading-relaxed text-amber-800">
+                                    For security, browsers cannot silently send emails on their own. To deliver notes straight to <strong>twinfallstrails@gmail.com</strong> with one click, connect this form to a free relay like <strong>Web3Forms</strong> or <strong>Formspree</strong> (takes 60 seconds—click <em>"Get Website Code"</em> above for the exact snippet).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="pt-1 flex flex-wrap items-center justify-between gap-2 border-t border-amber-200/70">
+                            <span class="text-amber-800 font-medium">Need to send manually right now?</span>
+                            <button type="button" id="copyAllFallbackBtn" class="inline-flex items-center gap-1.5 bg-white hover:bg-amber-100 text-amber-950 font-semibold px-3 py-1.5 rounded-lg border border-amber-300 shadow-xs transition cursor-pointer">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                </svg>
+                                <span>Copy Full Message & Address</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Confirmation Banner (Hidden by default) -->
+                <div id="statusFeedbackBanner" class="hidden rounded-xl p-4 border text-sm transition-all" role="alert">
+                    <div class="flex items-start gap-3">
+                        <div id="statusIcon" class="shrink-0 mt-0.5"></div>
+                        <div class="flex-grow">
+                            <h4 id="statusTitle" class="font-bold"></h4>
+                            <p id="statusDescription" class="mt-0.5 text-xs leading-relaxed"></p>
+                        </div>
+                        <button type="button" id="dismissBannerBtn" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer" aria-label="Dismiss notification">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Secondary Info Footer Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+            <div class="bg-white/90 rounded-xl p-4 border border-slate-200/80 flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-forest-100 text-forest-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">What to Include</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                        Mention trailhead name, approximate distance from trailhead, and whether the obstacle is passable on foot.
+                    </p>
+                </div>
+            </div>
+            <div class="bg-white/90 rounded-xl p-4 border border-slate-200/80 flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Emergency Notice</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                        For medical emergencies, lost hikers, or active wildfires, always dial <strong>911</strong> immediately instead of using this form.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 px-4 text-center border-t border-slate-800">
+        <p>Twin Falls Trails Volunteer Stewardship &bull; Falls Trail Condition Reporting</p>
+    </footer>
+
+    <!-- DEVELOPER CODE MODAL -->
+    <div id="devCodeModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs" role="dialog" aria-modal="true" aria-labelledby="devModalTitle">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="px-6 py-4 bg-forest-900 text-white flex items-center justify-between shrink-0">
+                <div>
+                    <h2 id="devModalTitle" class="font-display font-bold text-lg">Embeddable HTML & Setup Guide</h2>
+                    <p class="text-xs text-forest-200">Copy and paste onto your Twin Falls Trails website</p>
+                </div>
+                <button type="button" id="closeDevModalBtn" class="p-2 rounded-lg text-forest-200 hover:text-white hover:bg-forest-800 transition cursor-pointer" aria-label="Close modal">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-6 overflow-y-auto space-y-6 text-sm text-slate-700">
+                
+                <!-- Snippet 1: Pure Mailto Link -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-slate-900">1. Zero-Backend Link (Opens User's Email App)</h3>
+                        <button type="button" data-copy-target="snippetMailto" class="copy-code-btn text-xs font-semibold bg-forest-100 hover:bg-forest-200 text-forest-800 px-3 py-1 rounded-lg transition cursor-pointer">
+                            Copy Snippet
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-500">Works on any static webpage with zero setup. Launches their email app with <strong>Falls Trail</strong> as the subject.</p>
+                    <pre id="snippetMailto" class="bg-slate-900 text-emerald-300 p-4 rounded-xl text-xs font-mono overflow-x-auto leading-relaxed"><code>&lt;a href="mailto:twinfallstrails@gmail.com?subject=Falls%20Trail&amp;body=Any%20reports%20of%20problems%20or%20trail%20conditions"&gt;
+  Report Falls Trail Conditions
+&lt;/a&gt;</code></pre>
+                </div>
+
+                <!-- Snippet 2: Direct Send without Email App -->
+                <div class="space-y-2 pt-2 border-t border-slate-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-slate-900">2. Direct Send Form (No Email App Required)</h3>
+                        <button type="button" data-copy-target="snippetDirect" class="copy-code-btn text-xs font-semibold bg-forest-100 hover:bg-forest-200 text-forest-800 px-3 py-1 rounded-lg transition cursor-pointer">
+                            Copy Snippet
+                        </button>
+                    </div>
+                    <div class="bg-forest-50 border border-forest-200 rounded-xl p-3 text-xs text-forest-900 space-y-1">
+                        <p class="font-semibold">How to activate direct delivery to twinfallstrails@gmail.com:</p>
+                        <ol class="list-decimal list-inside space-y-1 text-forest-800">
+                            <li>Go to <strong>web3forms.com</strong> (or <strong>formspree.io</strong>) — both have free tiers with no credit card needed.</li>
+                            <li>Enter <code class="bg-white px-1.5 py-0.5 rounded border border-forest-200">twinfallstrails@gmail.com</code> to receive your free <strong>Access Key</strong>.</li>
+                            <li>Paste that Access Key into the hidden input below, and hikers can submit straight from your page!</li>
+                        </ol>
+                    </div>
+                    <pre id="snippetDirect" class="bg-slate-900 text-sky-300 p-4 rounded-xl text-xs font-mono overflow-x-auto leading-relaxed"><code>&lt;form action="https://api.web3forms.com/submit" method="POST"&gt;
+  &lt;!-- Replace with your free key from web3forms.com --&gt;
+  &lt;input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY"&gt;
+  &lt;input type="hidden" name="subject" value="Falls Trail"&gt;
+
+  &lt;label for="report"&gt;Trail Condition Report:&lt;/label&gt;&lt;br&gt;
+  &lt;textarea id="report" name="message" rows="4" required&gt;Any reports of problems or trail conditions&lt;/textarea&gt;&lt;br&gt;
+
+  &lt;button type="submit"&gt;Send Trail Report&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex justify-end shrink-0">
+                <button type="button" id="closeDevModalFooterBtn" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-xl transition cursor-pointer">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Constants
+            const TARGET_EMAIL = 'twinfallstrails@gmail.com';
+            const EMAIL_SUBJECT = 'Falls Trail';
+            const DEFAULT_PROMPT = 'Any reports of problems or trail conditions';
+
+            // DOM Elements
+            const reportInput = document.getElementById('trailReportInput');
+            const charCount = document.getElementById('charCount');
+            const resetPromptBtn = document.getElementById('resetPromptBtn');
+            const mailtoLaunchBtn = document.getElementById('mailtoLaunchBtn');
+            const gmailWebBtn = document.getElementById('gmailWebBtn');
+            const copyEmailBtn = document.getElementById('copyEmailBtn');
+            const copyAllFallbackBtn = document.getElementById('copyAllFallbackBtn');
+
+            // Tabs & Panels
+            const tabEmailApp = document.getElementById('tabEmailApp');
+            const tabDirectSend = document.getElementById('tabDirectSend');
+            const tabDirectIconWrap = document.getElementById('tabDirectIconWrap');
+            const panelEmailApp = document.getElementById('panelEmailApp');
+            const panelDirectSend = document.getElementById('panelDirectSend');
+            const directSenderFields = document.getElementById('directSenderFields');
+            const directSubmitBtn = document.getElementById('directSubmitBtn');
+            const hikerEmailInput = document.getElementById('hikerEmailInput');
+
+            // Status Banner
+            const statusBanner = document.getElementById('statusFeedbackBanner');
+            const statusIcon = document.getElementById('statusIcon');
+            const statusTitle = document.getElementById('statusTitle');
+            const statusDescription = document.getElementById('statusDescription');
+            const dismissBannerBtn = document.getElementById('dismissBannerBtn');
+
+            // Developer Modal
+            const devCodeModal = document.getElementById('devCodeModal');
+            const openDevModalBtn = document.getElementById('openDevModalBtn');
+            const closeDevModalBtn = document.getElementById('closeDevModalBtn');
+            const closeDevModalFooterBtn = document.getElementById('closeDevModalFooterBtn');
+
+            // Helper: Clipboard copy compatible with sandboxed iframes
+            function copyToClipboard(text) {
+                const tempTextarea = document.createElement('textarea');
+                tempTextarea.value = text;
+                tempTextarea.style.position = 'fixed';
+                tempTextarea.style.left = '-9999px';
+                document.body.appendChild(tempTextarea);
+                tempTextarea.select();
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('Fallback copy failed', err);
+                }
+                document.body.removeChild(tempTextarea);
+            }
+
+            // Helper: Show Status Banner
+            function showBanner(type, title, description) {
+                statusBanner.classList.remove(
+                    'hidden',
+                    'bg-emerald-50', 'border-emerald-200', 'text-emerald-900',
+                    'bg-sky-50', 'border-sky-200', 'text-sky-900'
+                );
+
+                if (type === 'success') {
+                    statusBanner.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-900');
+                    statusIcon.innerHTML = `<svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+                } else {
+                    statusBanner.classList.add('bg-sky-50', 'border-sky-200', 'text-sky-900');
+                    statusIcon.innerHTML = `<svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+                }
+
+                statusTitle.textContent = title;
+                statusDescription.textContent = description;
+            }
+
+            dismissBannerBtn.addEventListener('click', () => {
+                statusBanner.classList.add('hidden');
+            });
+
+            // Sync Mailto & Gmail Web URLs dynamically as user types
+            function updateMailLinks() {
+                const bodyText = reportInput.value.trim() || DEFAULT_PROMPT;
+                const encodedSubject = encodeURIComponent(EMAIL_SUBJECT);
+                const encodedBody = encodeURIComponent(bodyText);
+
+                mailtoLaunchBtn.href = `mailto:${TARGET_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
+                gmailWebBtn.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${TARGET_EMAIL}&su=${encodedSubject}&body=${encodedBody}`;
+                charCount.textContent = `${reportInput.value.length} chars`;
+            }
+
+            reportInput.addEventListener('input', updateMailLinks);
+
+            // Reset suggested text button
+            resetPromptBtn.addEventListener('click', () => {
+                reportInput.value = DEFAULT_PROMPT;
+                updateMailLinks();
+                reportInput.focus();
+                reportInput.select();
+            });
+
+            // Quick Condition Tag Chips
+            document.querySelectorAll('.tag-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const tagText = chip.getAttribute('data-tag');
+                    const currentVal = reportInput.value.trim();
+
+                    if (currentVal === DEFAULT_PROMPT || currentVal === '') {
+                        reportInput.value = `${tagText}: `;
+                    } else {
+                        reportInput.value = `${currentVal}\n• ${tagText}`;
+                    }
+                    updateMailLinks();
+                    reportInput.focus();
+                });
+            });
+
+            // Copy Email Address Button
+            copyEmailBtn.addEventListener('click', () => {
+                copyToClipboard(TARGET_EMAIL);
+                const originalText = copyEmailBtn.textContent;
+                copyEmailBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyEmailBtn.textContent = originalText;
+                }, 1800);
+            });
+
+            // Copy Full Message & Address Fallback
+            copyAllFallbackBtn.addEventListener('click', () => {
+                const formatted = `To: ${TARGET_EMAIL}\nSubject: ${EMAIL_SUBJECT}\n\n${reportInput.value.trim() || DEFAULT_PROMPT}`;
+                copyToClipboard(formatted);
+                showBanner(
+                    'info',
+                    'Copied to Clipboard!',
+                    'The recipient address, "Falls Trail" subject, and your trail report are copied and ready to paste anywhere.'
+                );
+            });
+
+            // Notify when mailto button is clicked
+            mailtoLaunchBtn.addEventListener('click', () => {
+                showBanner(
+                    'info',
+                    'Opening your default email app...',
+                    `If your email client didn't open automatically, click "Open Gmail Web" below or switch to Option B to copy your note.`
+                );
+            });
+
+            // Tab Switching Logic
+            function switchTab(mode) {
+                statusBanner.classList.add('hidden');
+                if (mode === 'emailApp') {
+                    tabEmailApp.setAttribute('aria-selected', 'true');
+                    tabEmailApp.className = 'flex items-center justify-center sm:justify-start gap-3 px-4 py-3 rounded-xl text-left transition-all bg-white text-forest-900 shadow-sm ring-1 ring-slate-200 font-semibold cursor-pointer';
+                    
+                    tabDirectSend.setAttribute('aria-selected', 'false');
+                    tabDirectSend.className = 'flex items-center justify-center sm:justify-start gap-3 px-4 py-3 rounded-xl text-left transition-all text-slate-600 hover:bg-white/60 hover:text-slate-900 font-medium cursor-pointer';
+                    tabDirectIconWrap.className = 'w-9 h-9 rounded-lg bg-slate-200/70 text-slate-600 flex items-center justify-center shrink-0';
+
+                    panelEmailApp.classList.remove('hidden');
+                    panelDirectSend.classList.add('hidden');
+                    directSenderFields.classList.add('hidden');
+                } else {
+                    tabDirectSend.setAttribute('aria-selected', 'true');
+                    tabDirectSend.className = 'flex items-center justify-center sm:justify-start gap-3 px-4 py-3 rounded-xl text-left transition-all bg-white text-forest-900 shadow-sm ring-1 ring-slate-200 font-semibold cursor-pointer';
+                    tabDirectIconWrap.className = 'w-9 h-9 rounded-lg bg-forest-100 text-forest-700 flex items-center justify-center shrink-0';
+
+                    tabEmailApp.setAttribute('aria-selected', 'false');
+                    tabEmailApp.className = 'flex items-center justify-center sm:justify-start gap-3 px-4 py-3 rounded-xl text-left transition-all text-slate-600 hover:bg-white/60 hover:text-slate-900 font-medium cursor-pointer';
+
+                    panelDirectSend.classList.remove('hidden');
+                    directSenderFields.classList.remove('hidden');
+                    panelEmailApp.classList.add('hidden');
+                }
+            }
+
+            tabEmailApp.addEventListener('click', () => switchTab('emailApp'));
+            tabDirectSend.addEventListener('click', () => switchTab('directSend'));
+
+            // Simulated Direct Submission Demo
+            directSubmitBtn.addEventListener('click', () => {
+                const message = reportInput.value.trim();
+                if (!message) {
+                    reportInput.focus();
+                    return;
+                }
+
+                // Loading state
+                const originalHTML = directSubmitBtn.innerHTML;
+                directSubmitBtn.disabled = true;
+                directSubmitBtn.classList.add('opacity-80');
+                directSubmitBtn.innerHTML = `
+                    <svg class="animate-spin w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Sending Report...</span>
+                `;
+
+                setTimeout(() => {
+                    directSubmitBtn.disabled = false;
+                    directSubmitBtn.classList.remove('opacity-80');
+                    directSubmitBtn.innerHTML = originalHTML;
+
+                    const replyNote = hikerEmailInput.value.trim() ? ` (Reply-to: ${hikerEmailInput.value.trim()})` : '';
+                    showBanner(
+                        'success',
+                        'Interactive Demo: Trail Report Formatted & Queued!',
+                        `Subject: "Falls Trail" → To: twinfallstrails@gmail.com${replyNote}. To make this live on your own site without an email app, click "Get Website Code" in the top bar and plug in a free Web3Forms key.`
+                    );
+                }, 750);
+            });
+
+            // Modal Controls
+            function openModal() {
+                devCodeModal.classList.remove('hidden');
+                devCodeModal.classList.add('flex');
+            }
+
+            function closeModal() {
+                devCodeModal.classList.add('hidden');
+                devCodeModal.classList.remove('flex');
+            }
+
+            openDevModalBtn.addEventListener('click', openModal);
+            closeDevModalBtn.addEventListener('click', closeModal);
+            closeDevModalFooterBtn.addEventListener('click', closeModal);
+
+            devCodeModal.addEventListener('click', (e) => {
+                if (e.target === devCodeModal) closeModal();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !devCodeModal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+
+            // Copy Code Snippet Buttons inside Modal
+            document.querySelectorAll('.copy-code-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-copy-target');
+                    const codeEl = document.getElementById(targetId);
+                    if (codeEl) {
+                        copyToClipboard(codeEl.innerText);
+                        const prev = btn.textContent;
+                        btn.textContent = 'Copied!';
+                        setTimeout(() => {
+                            btn.textContent = prev;
+                        }, 1800);
+                    }
+                });
+            });
+
+            // Initialize links on load
+            updateMailLinks();
+        });
+    </script>
+</body>
+</html>
