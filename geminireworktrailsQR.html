@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twin Falls Trails — Trail Condition Report</title>
+  <style>
+    :root {
+      --earth-50: #faf8f5;
+      --earth-100: #f3efe8;
+      --banner-bg: #d7cebd;
+      --sage-text: #717855;
+      --forest-50: #f2f7f4;
+      --forest-100: #e0ece4;
+      --forest-300: #9bbfa9;
+      --forest-600: #38674d;
+      --forest-700: #2d533f;
+      --forest-800: #264334;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --rose-100: #ffe4e6;
+      --rose-700: #be123c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--earth-50);
+      color: var(--slate-800);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: #c3dacb;
+      color: #1f372b;
+    }
+
+    /* Top Banner */
+    .hero {
+      background-color: var(--banner-bg);
+      color: var(--sage-text);
+      padding: 40px 16px 56px;
+      text-align: center;
+    }
+
+    .hero-inner {
+      max-width: 768px;
+      margin: 0 auto;
+    }
+
+    .logo-wrap {
+      margin: 0 0 12px;
+        
+    }
+
+    .logo-wrap img {
+      max-height: none;
+      max-width: 100%;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    .hero-copy {
+      max-width: 576px;
+      margin: 0 auto;
+      color: #111111;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .hero-copy strong {
+      color: var(--sage-text);
+      font-weight: 700;
+    }
+
+    .hero-email {
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: rgba(45, 83, 63, 0.65);
+      text-underline-offset: 2px;
+    }
+
+    /* Main Container */
+    .container {
+      flex: 1;
+      width: 100%;
+      max-width: 768px;
+      margin: -24px auto 0;
+      padding: 0 16px 64px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+      overflow: hidden;
+    }
+
+    .form-body {
+      padding: 24px 20px 28px;
+    }
+
+    @media (min-width: 640px) {
+      .hero {
+        padding: 56px 24px 64px;
+      }
+      .hero-copy {
+        font-size: 16px;
+      }
+      .container {
+        padding: 0 24px 64px;
+      }
+      .form-body {
+        padding: 32px;
+      }
+    }
+
+    .section-block {
+      margin-bottom: 24px;
+    }
+
+    .section-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .eyebrow-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--slate-500);
+      margin-bottom: 10px;
+    }
+
+    .eyebrow-hint {
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: normal;
+      color: var(--slate-400);
+    }
+
+    /* Locked Trail Banner */
+    .locked-trail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--forest-50);
+      border: 1.5px solid var(--forest-300);
+      color: var(--forest-800);
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .link-btn {
+      background: none;
+      border: none;
+      padding: 4px 6px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--forest-700);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+    }
+
+    .link-btn:hover {
+      color: var(--forest-800);
+    }
+
+    /* Trail-Specific Info Blurb Box */
+    .trail-blurb-box {
+      background: var(--earth-100);
+      border-left: 4px solid var(--sage-text);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 22px;
+      font-size: 13.5px;
+      color: var(--slate-700);
+    }
+
+    .trail-blurb-title {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--sage-text);
+      margin-bottom: 4px;
+    }
+
+    .trail-blurb-box p {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Trail Selection Grid */
+    .trail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    @media (min-width: 540px) {
+      .trail-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .trail-btn {
+      min-height: 44px;
+      padding: 10px 12px;
+      background: var(--slate-100);
+      color: var(--slate-700);
+      border: 1.5px solid var(--slate-200);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .trail-btn:hover {
+      background: var(--forest-100);
+      border-color: var(--forest-300);
+      color: var(--forest-800);
+    }
+
+    .trail-btn.active {
+      background: var(--forest-700);
+      border-color: var(--forest-700);
+      color: #ffffff;
+    }
+
+    /* Quick Condition Chips */
+    .chip-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag-chip {
+      min-height: 36px;
+      padding: 7px 14px;
+      background: var(--slate-100);
+      color: var(--slate-700);
+      border: 1px solid var(--slate-200);
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .tag-chip:hover {
+      background: var(--forest-100);
+      border-color: var(--forest-300);
+      color: var(--forest-800);
+    }
+
+    /* Note Header & Textarea */
+    .note-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .note-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--slate-800);
+    }
+
+    .clear-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--slate-500);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+    }
+
+    .clear-btn:hover {
+      color: var(--forest-700);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 14px 16px;
+      border: 1.5px solid var(--slate-300);
+      border-radius: 12px;
+      background: #ffffff;
+      color: var(--slate-800);
+      font-family: inherit;
+      font-size: 16px;
+      line-height: 1.55;
+      resize: vertical;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--forest-600);
+      box-shadow: 0 0 0 4px rgba(75, 130, 99, 0.16);
+    }
+
+    .note-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--slate-500);
+    }
+
+    /* Photo Picker */
+    .photo-box {
+      border: 1.5px dashed var(--slate-300);
+      background: var(--slate-100);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .photo-pick-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 8px 14px;
+      background: #ffffff;
+      color: var(--slate-800);
+      border: 1px solid var(--slate-300);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .photo-pick-btn:hover {
+      border-color: var(--forest-600);
+      color: var(--forest-700);
+    }
+
+    .photo-status {
+      font-size: 12.5px;
+      color: var(--slate-600);
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .photo-preview-wrap {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .photo-preview-wrap img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--slate-300);
+    }
+
+    .error-msg {
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      background: var(--rose-100);
+      color: var(--rose-700);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      min-height: 50px;
+      padding: 14px 20px;
+      background: var(--forest-700);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(45, 83, 63, 0.22);
+      transition: background-color 0.15s;
+    }
+
+    .submit-btn:hover {
+      background: var(--forest-800);
+    }
+
+    /* Secondary Info Cards */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    @media (min-width: 640px) {
+      .info-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .info-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-icon.forest {
+      background: var(--forest-100);
+      color: var(--forest-700);
+    }
+
+    .info-icon.rose {
+      background: var(--rose-100);
+      color: var(--rose-700);
+    }
+
+    .info-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .info-card h3 {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--slate-800);
+    }
+
+    .info-card p {
+      margin: 4px 0 0;
+      font-size: 12.5px;
+      color: var(--slate-600);
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--slate-900);
+      color: var(--slate-400);
+      border-top: 1px solid var(--slate-800);
+      text-align: center;
+      font-size: 12px;
+      padding: 24px 16px;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Section -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1 class="logo-wrap">
+        <img src="logo.png" alt="Twin Falls Trails" >
+      </h1>
+      <p class="hero-copy">
+        Spotted a downed tree, muddy washout, pile of trash, or wildlife along
+        <strong id="heroTrailName">our trails</strong>?
+        Send a quick report directly to our Trail Coordinator below or at
+        <span class="hero-email">twinfallstrails@gmail.com</span>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="card">
+      <form id="trailReportForm" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data" class="form-body">
+        <input type="hidden" name="access_key" value="1c1016b6-4764-44f5-a0bd-aaabf096c302">
+        <input type="hidden" name="subject" id="emailSubjectField" value="Twin Falls Trail Condition Report">
+        <input type="hidden" name="trail_name" id="trailNameField" value="">
+
+        <!-- Locked Trail Banner (auto-shown when scanned from a ?trail= QR code) -->
+        <div id="lockedTrailBanner" class="locked-trail hidden">
+          <span id="lockedTrailText">Trail: Falls Trail</span>
+          <button type="button" id="changeTrailBtn" class="link-btn">Change trail</button>
+        </div>
+
+        <!-- Step 1: Trail Buttons (auto-hidden when ?trail= is in the URL) -->
+        <div id="trailSelectorSection" class="section-block">
+          <span class="eyebrow-label">
+            1. Select Trail <span class="eyebrow-hint">(tap the trail you hiked)</span>
+          </span>
+          <div id="trailButtonGrid" class="trail-grid"></div>
+        </div>
+
+        <!-- Trail-Specific Info Blurb (shows automatically when a selected trail has notes) -->
+        <div id="trailBlurbBox" class="trail-blurb-box hidden">
+          <span id="trailBlurbTitle" class="trail-blurb-title">About This Trail</span>
+          <p id="trailBlurbText"></p>
+        </div>
+
+        <!-- Step 2: Quick Condition Tag Chips -->
+        <div class="section-block">
+          <span class="eyebrow-label">
+            Quick Condition Tags <span class="eyebrow-hint">(tap to append to your note)</span>
+          </span>
+          <div class="chip-wrap">
+            <button type="button" data-tag="Downed tree blocking trail" class="tag-chip">Downed Tree</button>
+            <button type="button" data-tag="Muddy / washout section" class="tag-chip">Mud / Washout</button>
+            <button type="button" data-tag="Trail clear & in great shape" class="tag-chip">Trail Clear</button>
+            <button type="button" data-tag="Signage / blaze damaged" class="tag-chip">Missing Sign</button>
+            <button type="button" data-tag="Trash on trail" class="tag-chip">Trash</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Condition Note -->
+        <div class="section-block">
+          <div class="note-header">
+            <label for="trailReportInput" class="note-label">Trail Condition Note</label>
+            <button type="button" id="clearNoteBtn" class="clear-btn">Clear note</button>
+          </div>
+
+          <textarea
+            name="message"
+            id="trailReportInput"
+            rows="5"
+            placeholder="Describe what you saw, approximate distance from trailhead, or landmarks..."
+            required
+          ></textarea>
+
+          <div class="note-meta">
+            <span>Tip: Include approximate mile marker or landmark if known.</span>
+            <span id="charCount">0 chars</span>
+          </div>
+        </div>
+
+        <!-- Step 4: Optional Photo Attachment -->
+        <div class="section-block">
+          <span class="eyebrow-label">
+            Add a Photo <span class="eyebrow-hint">(optional — helps us see tree size or washout severity)</span>
+          </span>
+          <div class="photo-box">
+            <label for="photoInput" class="photo-pick-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <circle cx="12" cy="13" r="3" />
+              </svg>
+              Choose / Take Photo
+            </label>
+            <input type="file" id="photoInput" name="attachment" accept="image/*" class="hidden">
+            <span id="photoStatus" class="photo-status">No photo attached</span>
+            <button type="button" id="removePhotoBtn" class="clear-btn hidden">Remove</button>
+          </div>
+          <div id="photoPreviewWrap" class="photo-preview-wrap hidden">
+            <img id="photoPreviewImg" src="" alt="Selected trail photo preview">
+            <span id="photoFileMeta" class="photo-status"></span>
+          </div>
+        </div>
+
+        <p id="formError" class="error-msg hidden">Please select a trail before submitting your report.</p>
+
+        <!-- Submit -->
+        <div class="section-block">
+          <button type="submit" class="submit-btn">Submit Trail Report</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Secondary Info Cards -->
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-icon forest">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div>
+          <h3>What to Include</h3>
+          <p>Mention trailhead name, approximate distance from trailhead, and whether the obstacle is passable on foot.</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon rose">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <div>
+          <h3>Emergency Notice</h3>
+          <p>For medical emergencies, lost hikers, or active wildfires, always dial <strong>911</strong> immediately instead of using this form.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p id="footerText">Twin Falls Trail Condition Reporting</p>
+  </footer>
+
+  <script>
+    // Add or edit trail blurbs anytime inside this list
+    const TRAILS = [
+      {
+        slug: "falls",
+        name: "Falls Trail",
+        blurb: "Leads to both of Twin Falls' namesake waterfalls and passes remnants of the historic pioneer grist mill site along the creek."
+      },
+      { slug: "cliffside", name: "Cliffside Trail", blurb: "" },
+      { slug: "huckleberry", name: "Huckleberry Trail", blurb: "" },
+      { slug: "hemlock", name: "Hemlock Trail", blurb: "" },
+      { slug: "mcgraw", name: "McGraw Trail", blurb: "" },
+      { slug: "still-run", name: "Still Run Trail", blurb: "" },
+      {
+        slug: "horsepen",
+        name: "Horsepen Trail",
+        blurb: "Keep an eye out along the corridor for old homestead remnants, including an early root cellar site."
+      },
+      { slug: "poke-hollow", name: "Poke Hollow Trail", blurb: "" },
+      { slug: "summit", name: "Summit Trail", blurb: "" },
+      { slug: "nature", name: "Nature Trail", blurb: "" },
+      { slug: "buck-run", name: "Buck Run Trail", blurb: "" },
+      { slug: "hickory-knob", name: "Hickory Knob Trail", blurb: "" },
+      { slug: "twin-oaks", name: "Twin Oaks Trail", blurb: "" },
+      { slug: "moonshiners", name: "Moonshiners", blurb: "" },
+      {
+        slug: "rocky-road",
+        name: "Rocky Road",
+        blurb: "Follows rugged terrain where hikers can spot vintage relics along the way, including the remains of an old truck."
+      }
+    ];
+
+    const form = document.getElementById("trailReportForm");
+    const trailNameField = document.getElementById("trailNameField");
+    const emailSubjectField = document.getElementById("emailSubjectField");
+    const heroTrailName = document.getElementById("heroTrailName");
+    const footerText = document.getElementById("footerText");
+    const lockedTrailBanner = document.getElementById("lockedTrailBanner");
+    const lockedTrailText = document.getElementById("lockedTrailText");
+    const changeTrailBtn = document.getElementById("changeTrailBtn");
+    const trailSelectorSection = document.getElementById("trailSelectorSection");
+    const trailButtonGrid = document.getElementById("trailButtonGrid");
+    const trailBlurbBox = document.getElementById("trailBlurbBox");
+    const trailBlurbTitle = document.getElementById("trailBlurbTitle");
+    const trailBlurbText = document.getElementById("trailBlurbText");
+    const reportInput = document.getElementById("trailReportInput");
+    const clearNoteBtn = document.getElementById("clearNoteBtn");
+    const charCount = document.getElementById("charCount");
+    const photoInput = document.getElementById("photoInput");
+    const photoStatus = document.getElementById("photoStatus");
+    const removePhotoBtn = document.getElementById("removePhotoBtn");
+    const photoPreviewWrap = document.getElementById("photoPreviewWrap");
+    const photoPreviewImg = document.getElementById("photoPreviewImg");
+    const photoFileMeta = document.getElementById("photoFileMeta");
+    const formError = document.getElementById("formError");
+
+    // Build trail buttons
+    TRAILS.forEach((trail) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "trail-btn";
+      btn.textContent = trail.name;
+      btn.dataset.slug = trail.slug;
+      btn.addEventListener("click", () => selectTrail(trail));
+      trailButtonGrid.appendChild(btn);
+    });
+
+    function selectTrail(trail) {
+      trailNameField.value = trail.name;
+      emailSubjectField.value = `${trail.name} — Condition Report`;
+      heroTrailName.textContent = trail.name;
+      footerText.textContent = `${trail.name} Condition Reporting`;
+      formError.classList.add("hidden");
+
+      document.querySelectorAll(".trail-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.slug === trail.slug);
+      });
+
+      // Show or hide trail-specific info blurb
+      if (trail.blurb && trail.blurb.trim() !== "") {
+        trailBlurbTitle.textContent = `${trail.name} — Points of Interest`;
+        trailBlurbText.textContent = trail.blurb;
+        trailBlurbBox.classList.remove("hidden");
+      } else {
+        trailBlurbBox.classList.add("hidden");
+      }
+    }
+
+    // Check URL for ?trail=slug
+    const params = new URLSearchParams(window.location.search);
+    const urlSlug = (params.get("trail") || "").toLowerCase().trim();
+    const matchedTrail = TRAILS.find((t) => t.slug === urlSlug);
+
+    if (matchedTrail) {
+      selectTrail(matchedTrail);
+      lockedTrailText.textContent = `Trail: ${matchedTrail.name}`;
+      lockedTrailBanner.classList.remove("hidden");
+      trailSelectorSection.classList.add("hidden");
+    }
+
+    changeTrailBtn.addEventListener("click", () => {
+      lockedTrailBanner.classList.add("hidden");
+      trailSelectorSection.classList.remove("hidden");
+    });
+
+    // Quick condition chips
+    document.querySelectorAll(".tag-chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const tagText = chip.getAttribute("data-tag");
+        const currentVal = reportInput.value.trim();
+        reportInput.value = currentVal ? `${currentVal}\n${tagText}: ` : `${tagText}: `;
+        updateCharCount();
+        reportInput.focus();
+      });
+    });
+
+    function updateCharCount() {
+      charCount.textContent = `${reportInput.value.length} chars`;
+    }
+
+    reportInput.addEventListener("input", updateCharCount);
+
+    clearNoteBtn.addEventListener("click", () => {
+      reportInput.value = "";
+      updateCharCount();
+      reportInput.focus();
+    });
+
+    // Photo selection & preview
+    photoInput.addEventListener("change", () => {
+      const file = photoInput.files[0];
+      if (!file) {
+        resetPhoto();
+        return;
+      }
+
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+      if (file.size > 5 * 1024 * 1024) {
+        formError.textContent = `That photo is ${sizeMB} MB—please pick an image under 5 MB so it sends reliably on trail reception.`;
+        formError.classList.remove("hidden");
+        resetPhoto();
+        return;
+      }
+
+      formError.classList.add("hidden");
+      photoStatus.textContent = "Photo ready to send";
+      photoFileMeta.textContent = `${file.name} (${sizeMB} MB)`;
+      removePhotoBtn.classList.remove("hidden");
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        photoPreviewImg.src = e.target.result;
+        photoPreviewWrap.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function resetPhoto() {
+      photoInput.value = "";
+      photoStatus.textContent = "No photo attached";
+      removePhotoBtn.classList.add("hidden");
+      photoPreviewWrap.classList.add("hidden");
+      photoPreviewImg.src = "";
+    }
+
+    removePhotoBtn.addEventListener("click", resetPhoto);
+
+    // Validate trail selection before submit
+    form.addEventListener("submit", (e) => {
+      if (!trailNameField.value.trim()) {
+        e.preventDefault();
+        formError.textContent = "Please select a trail before submitting your report.";
+        formError.classList.remove("hidden");
+        trailSelectorSection.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+  </script>
+</body>
+</html>
